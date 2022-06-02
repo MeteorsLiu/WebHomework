@@ -208,7 +208,7 @@ const Nav = observer(({ categoryStore }) => {
                                             </div>
                                         </form>
                                     </div>
-                                    <JuejinRoundAvatar avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar>
+                                    <JuejinRoundAvatar href="/login" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar>
                                 </div>
                             </div>
                         </div>
