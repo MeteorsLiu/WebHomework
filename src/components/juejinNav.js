@@ -1,5 +1,8 @@
 import React from "react";
+import Link from 'next/link'
+
 import { Fragment, useRef, useState, useEffect } from "react";
+import { useRouter } from 'next/router'
 
 import JuejinRoundAvatar from "./juejinRoundAvatar";
 
@@ -57,7 +60,7 @@ const Menu = (props) => {
             <ul
                 style={{ fontSize: "1.05rem", lineHeight: "3rem" }}
                 className="flex flex-col items-center">
-                <li className="text-juejinactive cursor-pointer flex-1">首页</li>
+                <li className="text-juejinactive cursor-pointer flex-1"><Link href="/">首页 </Link></li>
                 <li className="hover:text-juejinactive cursor-pointer flex-1">
                     暂无
                 </li>
@@ -74,6 +77,7 @@ const Nav = observer(({ categoryStore }) => {
     const SearchBar = useRef(null);
 
     const [categoriesList, setCategoriesList] = useState([]); //一级类别tab，纯数组形式
+    const router = useRouter()
 
     // 用于切换一级类别tab
     const [tabIndex, setTabIndex] = React.useState(0);
@@ -131,7 +135,7 @@ const Nav = observer(({ categoryStore }) => {
                                     <div className="order-1">
                                         {/* Logo */}
                                         <a
-                                            href="#"
+                                            href="/"
                                             className="flex items-center py-4 md:px-2">
                                             <img
                                                 className="w-auto h-6 md:block hidden"
@@ -148,9 +152,11 @@ const Nav = observer(({ categoryStore }) => {
                                         {/* <div className="flex-auto flex items-center ml-3"> */}
                                         <ul className="flex-grow flex text-juejinnav">
                                             <li className="flex-1 px-5 text-juejinactive">
-                                                <a className="cursor-pointer">
-                                                    首页
-                                                </a>
+                                                <Link href="/">
+                                                    <a className="cursor-pointer">
+                                                        首页
+                                                    </a>
+                                                </Link>
                                             </li>
 
                                             <li className="flex-1 px-5 hover:text-juejinactive">
@@ -212,18 +218,19 @@ const Nav = observer(({ categoryStore }) => {
                                 </div>
                             </div>
                         </div>
-                        <Tabs
-                            selectedIndex={tabIndex}
-                            onSelect={(index) => {
-                                setTabIndex(index);
-                                categoryStore.setMainCategory(index);
-                            }}>
-                            <TabList>
-                                <div className="flex overflow-x-auto border-b border-gray-200 bg-white z-0">
-                                    <div className="flex-row inline-flex text-juejinnav h-10 items-center pl-4">
-                                        {/* 生成一级类别 */}
-                                        {categoriesList.map((item, index) => {
-                                            return (
+                        {
+                            router.pathname == "/" && <Tabs
+                                selectedIndex={tabIndex}
+                                onSelect={(index) => {
+                                    setTabIndex(index);
+                                    categoryStore.setMainCategory(index);
+                                }}>
+                                <TabList>
+                                    <div className="flex overflow-x-auto border-b border-gray-200 bg-white z-0">
+                                        <div className="flex-row inline-flex text-juejinnav h-10 items-center pl-4">
+                                            {/* 生成一级类别 */}
+                                            {categoriesList.map((item, index) => {
+                                                return (
                                                     <CategoryTab
                                                         key={index}
                                                         isSelected={
@@ -231,20 +238,20 @@ const Nav = observer(({ categoryStore }) => {
                                                         }>
                                                         {item["category_name"]}
                                                     </CategoryTab>
-                                            );
-                                        })}
+                                                );
+                                            })}
+                                        </div>
                                     </div>
-                                </div>
-                            </TabList>
-                            {/* 直接填充空白panel，有空再大改 */}
-                            {categoriesList.map((item, index) => {
-                                return <TabPanel key={index}></TabPanel>;
-                            })}
-                            {/* <div className="bg-transparent block"> */}
-                            {/* <CategoryTabPanel>1</CategoryTabPanel> */}
-                            {/* 这部分的逻辑是，先遍历categoriesList，如果有children（即二级子类别）
+                                </TabList>
+                                {/* 直接填充空白panel，有空再大改 */}
+                                {categoriesList.map((item, index) => {
+                                    return <TabPanel key={index}></TabPanel>;
+                                })}
+                                {/* <div className="bg-transparent block"> */}
+                                {/* <CategoryTabPanel>1</CategoryTabPanel> */}
+                                {/* 这部分的逻辑是，先遍历categoriesList，如果有children（即二级子类别）
                                 则再遍历二级子类别，提取出相关信息并生成 */}
-                            {/* {categoriesList.map((item) => {
+                                {/* {categoriesList.map((item) => {
                                     return (
                                         <CategoryTabPanel>
                                             <JuejinTagList
@@ -258,7 +265,8 @@ const Nav = observer(({ categoryStore }) => {
                                     );
                                 })}
                             </div> */}
-                        </Tabs>
+                            </Tabs>
+                        }
                     </div>
                 </nav>
             </div>

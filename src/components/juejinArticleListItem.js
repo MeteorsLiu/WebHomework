@@ -56,7 +56,7 @@ return (
                 <div className="flex flex-1 flex-row mt-1 pb-3 items-center">
                     <div className="flex flex-1 overflow-hidden">
                         <div className="flex flex-1 flex-col w-full">
-                            <div className="mb-1 text-gray-800 truncate">
+                            <div className="mb-1 text-gray-800 truncate font-semibold">
                                 {title}
                             </div>
                             <div className="mb-4 text-gray-400 text-sm truncate">
