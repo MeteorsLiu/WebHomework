@@ -5,17 +5,17 @@ import React from "react";
 
 import Nav from "../../components/juejinNav";
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 
 import { categoryStore } from "../../store/categoryStore";
 
 export default function Login(props) {
     const router = useRouter();
-    const onSubmitEvent = async e => {
-        e.preventDefault()
-
+    const onSubmitEvent = () => {
+        Cookies.set('isLogin', true)
+        router.reload(window.location.pathname)
 
     }
-
     return (
         <div>
             <Head>

@@ -13,6 +13,7 @@ import { isEmpty } from "../utils/commonutils";
 import { getCategories } from "../api";
 
 import JuejinTagList from "./juejinTagList";
+import Cookies from 'js-cookie'
 
 // import { categoryStore } from "../store/categoryStore";
 
@@ -46,12 +47,12 @@ const CategoryTabPanel = (props) => {
 CategoryTabPanel.tabsRole = "TabPanel";
 
 const Menu = (props) => {
-    const { dropdown } = props;
+    const { dropdown, isDefault } = props;
     return (
         <div
             ref={dropdown}
             style={{
-                top: "58%",
+                top: isDefault ? "58%" : "86%",
                 boxShadow: "0 1px 2px 0 rgb(0 0 0 / 10%)",
                 border: "1px solid rgba(177,180,185,.45)",
                 borderRadius: "4px",
@@ -69,19 +70,52 @@ const Menu = (props) => {
     )
 }
 
+
+const RegisterList = (props) => (
+    <div
+        ref={props.registerRef}
+        style={{
+            top: props.isDefault ? "54%" : "86%",
+            left: "auto",
+            right: "7px",
+            boxShadow: "0 1px 2px 0 rgb(0 0 0 / 10%)",
+            border: "1px solid rgba(177,180,185,.45)",
+            borderRadius: "4px",
+        }}
+        className="overflow-y-auto absolute h-16 w-28 bg-white text-juejinnav left-0">
+        <ul
+            style={{ fontSize: "1.05rem", lineHeight: "3rem" }}
+            className="flex flex-col items-center">
+            <li className="text-juejinactive cursor-pointer flex-1"><Link href="/register">注册</Link></li>
+        </ul>
+    </div>
+)
+
+const LoginButton = (props) => (
+    <div className={"flex flex-row h-[60%] bg-[#0077ff] w-full rounded justify-center items-center " + (props.isHide && " hidden")}>
+        <div className="w-3/4 text-center hover:bg-[#1171ee] duration-200 text-[0.9rem] ">
+            <Link href="/login">登录</Link>
+        </div>
+        <div onClick={() => props.setRegister(b => !b)} className="flex items-center justify-center border-l rounded border-[hsla(0,0%,100%,.1)] h-full w-1/4 hover:bg-[#1171ee] cursor-pointer">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" class="unfold12-icon" data-v-399391d6=""><path d="M2.45025 4.82383C2.17422 4.49908 2.40501 4 2.83122 4H9.16878C9.59499 4 9.82578 4.49908 9.54975 4.82382L6.38097 8.5518C6.1813 8.7867 5.8187 8.7867 5.61903 8.5518L2.45025 4.82383Z" fill="white" data-v-399391d6=""></path></svg>
+        </div>
+    </div>
+)
 const Nav = observer(({ categoryStore }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
+    const [showRegister, setRegister] = useState(false);
     //This one must be global!!
     const dropdown = useRef(null);
     const SearchBar = useRef(null);
+    const Register = useRef(null);
 
     const [categoriesList, setCategoriesList] = useState([]); //一级类别tab，纯数组形式
     const router = useRouter()
 
     // 用于切换一级类别tab
     const [tabIndex, setTabIndex] = React.useState(0);
-
+    let isLogin = Cookies.get('isLogin');
     React.useEffect(() => {
         // 获取类别
         getCategories().then(
@@ -120,6 +154,19 @@ const Nav = observer(({ categoryStore }) => {
         window.addEventListener("click", handleClick);
         return () => window.removeEventListener("click", handleClick);
     }, [showSearch]);
+
+
+    React.useEffect(() => {
+        //故技重施
+        if (!showRegister) return;
+        function handleClick(event) {
+            if (Register.current && !Register.current.contains(event.target)) {
+                setRegister(false);
+            }
+        }
+        window.addEventListener("click", handleClick);
+        return () => window.removeEventListener("click", handleClick);
+    }, [showRegister]);
 
 
 
@@ -187,7 +234,7 @@ const Nav = observer(({ categoryStore }) => {
                                             />
                                         </svg>
 
-                                        {showDropdown ? <Menu dropdown={dropdown} /> : null}
+                                        {showDropdown ? <Menu isDefault={router.pathname == "/"} dropdown={dropdown} /> : null}
                                     </div>
                                 </div>
 
@@ -214,7 +261,12 @@ const Nav = observer(({ categoryStore }) => {
                                             </div>
                                         </form>
                                     </div>
-                                    <JuejinRoundAvatar href="/login" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar>
+                                    <div className="flex items-center text-white w-[5rem]">
+                                        {isLogin && <JuejinRoundAvatar href="/manage" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar>}
+                                        <LoginButton setRegister={setRegister} isHide={isLogin}></LoginButton>
+                                        {showRegister && <RegisterList isDefault={router.pathname == "/"} registerRef={Register}></RegisterList>}
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
