@@ -92,7 +92,7 @@ const RegisterList = (props) => (
 )
 
 const LoginButton = (props) => (
-    <div className={"flex flex-row h-[60%] bg-[#0077ff] w-full rounded justify-center items-center " + (props.isHide && " hidden")}>
+    <div className="h-[60%] bg-[#0077ff] w-full rounded justify-center items-center flex flex-row" >
         <div className="w-3/4 text-center hover:bg-[#1171ee] duration-200 text-[0.9rem] ">
             <Link href="/login">登录</Link>
         </div>
@@ -262,8 +262,8 @@ const Nav = observer(({ categoryStore }) => {
                                         </form>
                                     </div>
                                     <div className="flex items-center text-white w-[5rem]">
-                                        {isLogin && <JuejinRoundAvatar href="/manage" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar>}
-                                        <LoginButton setRegister={setRegister} isHide={isLogin}></LoginButton>
+                                        {isLogin == "true" && <JuejinRoundAvatar href="/manage" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar> || <LoginButton setRegister={setRegister}></LoginButton>}
+                                        
                                         {showRegister && <RegisterList isDefault={router.pathname == "/"} registerRef={Register}></RegisterList>}
                                     </div>
 
