@@ -70,7 +70,10 @@ const Menu = (props) => {
     )
 }
 
-
+const Logout = (router) => {
+    Cookies.remove('isLogin')
+    router.reload(window.location.pathname)
+}
 const RegisterList = (props) => (
     <div
         ref={props.registerRef}
@@ -86,9 +89,12 @@ const RegisterList = (props) => (
         <ul
             style={{ fontSize: "1.05rem", lineHeight: "3rem" }}
             className="flex flex-col items-center">
-            <li className="text-juejinactive cursor-pointer flex-1"><Link href="/register">注册</Link></li>
-        </ul>
-    </div>
+            {props.isLogin ?
+            <li className="text-juejinactive cursor-pointer flex-1"><a href="#" onClick={() => Logout(props.router)}>登出</a></li>
+            : <li className="text-juejinactive cursor-pointer flex-1"><Link href="/register">注册</Link></li> }
+
+    </ul>
+    </div >
 )
 
 const LoginButton = (props) => (
@@ -105,6 +111,8 @@ const Nav = observer(({ categoryStore }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [showSearch, setShowSearch] = useState(false);
     const [showRegister, setRegister] = useState(false);
+    const [isLogin, setisLogin] = useState(false);
+
     //This one must be global!!
     const dropdown = useRef(null);
     const SearchBar = useRef(null);
@@ -115,7 +123,6 @@ const Nav = observer(({ categoryStore }) => {
 
     // 用于切换一级类别tab
     const [tabIndex, setTabIndex] = React.useState(0);
-    let isLogin = Cookies.get('isLogin');
     React.useEffect(() => {
         // 获取类别
         getCategories().then(
@@ -128,6 +135,7 @@ const Nav = observer(({ categoryStore }) => {
         );
         // 默认为0
         // setCurrentCategory(0);
+        setisLogin(Cookies.get('isLogin'))
     }, []);
 
     React.useEffect(() => {
@@ -262,9 +270,9 @@ const Nav = observer(({ categoryStore }) => {
                                         </form>
                                     </div>
                                     <div className="flex items-center text-white w-[5rem]">
-                                        {isLogin == "true" && <JuejinRoundAvatar href="/manage" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar> || <LoginButton setRegister={setRegister}></LoginButton>}
-                                        
-                                        {showRegister && <RegisterList isDefault={router.pathname == "/"} registerRef={Register}></RegisterList>}
+                                        {isLogin ? <div onMouseOver={() => setRegister(true)}><JuejinRoundAvatar href="/manage" avatarSrc="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png"></JuejinRoundAvatar></div> : <LoginButton setRegister={setRegister}></LoginButton>}
+
+                                        {showRegister && <RegisterList router={router} isLogin={isLogin} isDefault={router.pathname == "/"} registerRef={Register}></RegisterList>}
                                     </div>
 
                                 </div>
