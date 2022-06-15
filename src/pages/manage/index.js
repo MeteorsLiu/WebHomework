@@ -17,6 +17,9 @@ export default function Login(props) {
        alert(123)
     }
 
+    React.useEffect(() => {
+    Cookies.get('isLogin') || router.push("/login")
+}, []);
     return (
         <div className="w-full">
             <Head>
