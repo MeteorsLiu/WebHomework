@@ -38,7 +38,7 @@ export default function FindPassword(props) {
                         </div>
                         <div className="flex flex-col items-center w-full">
                             <div className="w-3/4 py-2">
-                                <input id="email" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入邮箱" />
+                                <input required id="email" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入邮箱" />
                             </div>
                             <div className="w-3/4 py-1 ">
                                 <button className="py-2 text-center bg-[#007fff]  rounded w-full text-white">发送重设申请</button>

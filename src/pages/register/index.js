@@ -53,18 +53,18 @@ export default function Register(props) {
                         </div>
                         <div className="flex flex-col items-center w-full">
                             <div className="w-3/4 py-2">
-                                <input id="username" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入账号" />
+                                <input required id="username" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入账号" />
                             </div>
                             <div className="w-3/4 py-2">
-                                <input id="password" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " type="password" placeholder="请输入密码" />
-                            </div>
-
-                            <div className="w-3/4 py-2">
-                                <input id="repeatPassword" minLength="6" maxLength="20"  className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " type="password" placeholder="请再次输入密码" />
+                                <input required id="password" minLength="6" maxLength="20" className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " type="password" placeholder="请输入密码" />
                             </div>
 
                             <div className="w-3/4 py-2">
-                                <input  id="email" minLength="6"  className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入邮箱" />
+                                <input required id="repeatPassword" minLength="6" maxLength="20"  className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " type="password" placeholder="请再次输入密码" />
+                            </div>
+
+                            <div className="w-3/4 py-2">
+                                <input required id="email" minLength="6"  className="px-2 rounded w-full border  py-2 border-slate-200 focus:border-blue-300  " placeholder="请输入邮箱" />
                             </div>
 
                             <div className="w-3/4 py-1 ">
